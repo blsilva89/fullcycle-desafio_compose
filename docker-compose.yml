@@ -9,9 +9,13 @@ services:
     entrypoint: dockerize -wait tcp://db:3306 -timeout 20s
     networks:
       - node-networks
+    volumes:
+      - ./node:/usr/src/app
+    tty: true
     depends_on:
       - db
-    command: ["node", "index.js"]
+    command: >
+      sh -c "npm install && npm start"
 
   db:
     image: mysql:5.7
